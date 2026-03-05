@@ -1,0 +1,117 @@
+[
+    {
+        "year": 2025,
+        "projects": [
+            {
+                "id": 10,
+                "title": "MICCAI 2025 - SurgVU",
+                "description": "Computer vision ML project for classifying surgical tools in videos, submitted to MICCAI 2025 competition & conference.",
+                "techStack": [
+                    "Python",
+                    "YOLO",
+                    "AI"
+                ],
+                "link": "https://github.com/Surg-Troopers"
+            },
+            {
+                "id": 9,
+                "title": "ACM ICAIF'24 Finance RAG",
+                "description": "RAG system project for financial documents retrieval for ICAIF'24 competition.",
+                "techStack": [
+                    "RAG",
+                    "LLMs",
+                    "Python",
+                    "AI"
+                ],
+                "link": "https://github.com/KenjiTECHinc/ICAIF-FinanceRAG"
+            },
+            {
+                "id": 8,
+                "title": "Minesweep Plus 💣",
+                "description": "First try at React, built a classic Minesweeper game! Why the 'Plus'?, because it sounds cooler. 😎",
+                "techStack": [
+                    "React"
+                ],
+                "link": "https://github.com/KenjiTECHinc/minesweep-plus"
+            },
+            {
+                "id": 7,
+                "title": "LinkedIn AdBlocker ⛔",
+                "description": "Are you tired of Ads? Try this Ad-blocker Chrome extension that blocks sponsored posts on LinkedIn.",
+                "techStack": [
+                    "JavaScript"
+                ],
+                "link": "https://github.com/KenjiTECHinc/web-adblocker"
+            }
+        ]
+    },
+    {
+        "year": 2024,
+        "projects": [
+            {
+                "id": 6,
+                "title": "English-Braille Text OCR and Translation",
+                "description": "Machine Learning project that uses OCR to translate English books into Braille.",
+                "techStack": [
+                    "Python",
+                    "TensorFlow",
+                    "OpenCV",
+                    "AI"
+                ],
+                "link": "https://github.com/KenjiTECHinc/English-Braille-translator"
+            },
+            {
+                "id": 5,
+                "title": "Patent Portfolio Dashboard",
+                "description": "A dashboard for visualizing System on Chip (SoC) patent portfolios from 3 main competitors in the market.",
+                "techStack": [
+                    "SQLite",
+                    "Python"
+                ],
+                "link": "https://github.com/KenjiTECHinc/PatentPortfolio-Dashboard"
+            },
+            {
+                "id": 4,
+                "title": "BFriends App",
+                "description": "An app for finding friends with common interests!",
+                "techStack": [
+                    "Flutter",
+                    "Google Cloud"
+                ],
+                "link": "https://github.com/BFriends-inc/BFriends-app"
+            }
+        ]
+    },
+    {
+        "year": 2023,
+        "projects": [
+            {
+                "id": 3,
+                "title": "Reflex Trainer",
+                "description": "Verilog game inspired by Aimlabs, playable on FPGA boards. First project I feel very proud of. 😆",
+                "techStack": [
+                    "Verilog"
+                ],
+                "link": "https://github.com/KenjiTECHinc/Reflex-Trainer"
+            },
+            {
+                "id": 2,
+                "title": "MinitChess Bot",
+                "description": "My first exposure into the world of AI. It's a simple chess bot implemented in C++ with basic AI algorithm.",
+                "techStack": [
+                    "C++"
+                ],
+                "link": "https://github.com/KenjiTECHinc/MinitChess-Bot"
+            },
+            {
+                "id": 1,
+                "title": "Tower Defense Game 🎯",
+                "description": "A fun tower defense game implemented with C++. Barely knew how to code then, time flies! 🤯",
+                "techStack": [
+                    "C++"
+                ],
+                "link": "https://github.com/KenjiTECHinc/TowerDefense-Game"
+            }
+        ]
+    }
+]
