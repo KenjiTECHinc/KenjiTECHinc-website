@@ -9,6 +9,7 @@
   --color-primary-700: oklch(48.8% 0.243 264.376);
   --color-primary-800: oklch(42.4% 0.199 265.638);
 
+  --color-contrast-100: oklch(93.68% 0.1664 78.96);
   --color-contrast-500: oklch(87.68% 0.1664 78.96);
   --color-contrast-600: oklch(81.68% 0.1664 78.96);
   --color-contrast-700: oklch(78.68% 0.1664 78.96);
@@ -29,6 +30,14 @@
 
   --color-white: #fff;
   --color-black: #000;
+
+  --color-sky-600: oklch(58.8% 0.158 241.966);
+  --color-sky-700: oklch(50% 0.134 242.749);
+
+  --color-zinc-700: oklch(37% 0.013 285.805);
+  --color-zinc-800: oklch(27.4% 0.006 286.033);
+  --color-zinc-900: oklch(21% 0.006 285.885);
+  --color-zinc-950: oklch(14.1% 0.005 285.823);
 }
 
 /* Base styles */
@@ -49,10 +58,12 @@
     @apply text-text-700 text-5xl font-bold mb-4 mt-1.5;
   }
 
+  /* Usually for sub-section headers */
   h4 {
     @apply text-text-600 text-3xl font-bold mb-2 mt-1;
   }
 
+  /* Usually for non-section headers, but still important titles */
   h5 {
     @apply text-text-600 text-2xl font-semibold mb-2 mt-1;
   }

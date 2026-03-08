@@ -9,6 +9,7 @@
                 "techStack": [
                     "Python",
                     "YOLO",
+                    "CNN",
                     "AI"
                 ],
                 "link": "https://github.com/Surg-Troopers"
@@ -36,7 +37,7 @@
             },
             {
                 "id": 7,
-                "title": "LinkedIn AdBlocker ⛔",
+                "title": "Website AdBlocker ⛔",
                 "description": "Are you tired of Ads? Try this Ad-blocker Chrome extension that blocks sponsored posts on LinkedIn.",
                 "techStack": [
                     "JavaScript"
@@ -56,6 +57,7 @@
                     "Python",
                     "TensorFlow",
                     "OpenCV",
+                    "CNN",
                     "AI"
                 ],
                 "link": "https://github.com/KenjiTECHinc/English-Braille-translator"

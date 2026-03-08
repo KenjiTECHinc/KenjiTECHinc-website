@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import './index.css'
-import { ProjectCard } from './components/molecules/ProjectCard';
+import { LogoButton } from './components/atoms/LogoButton';
 import { ProjectsGrid } from './components/organisms/ProjectsGrid';
 
 import projectsData from './data/projects.json';
+import linkedInLogo from './assets/linkedin_64_small.svg';
+import githubLogo from './assets/github_32_xs.svg';
 
 
 function App() {
@@ -16,6 +18,25 @@ function App() {
       <h2>
         Welcome to my personal website!
       </h2>
+
+      <h5>Just looking to connect? 🤝</h5>
+      <LogoButton
+        href="https://www.linkedin.com/in/achita-chitraphan"
+        imageSrc={linkedInLogo}
+        altText="LinkedIn Logo"
+        colorVariant={"linkedIn"}
+      >
+        Connect on LinkedIn
+      </LogoButton>
+      <LogoButton
+        href="https://github.com/KenjiTECHinc"
+        imageSrc={githubLogo}
+        altText="GitHub Logo"
+        colorVariant={"github"}
+      >
+        Follow on GitHub
+      </LogoButton>
+
 
       <hr className="border-gray-900 my-6 h-1 w-1/2" />
 
