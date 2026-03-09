@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import './index.css'
-import { ProjectCard } from './components/molecules/ProjectCard';
 import { ProjectsGrid } from './components/organisms/ProjectsGrid';
+import { ButtonCollection } from './components/molecules/ButtonCollection';
 
 import projectsData from './data/projects.json';
+import connectData from './data/connect.json';
 
 
 function App() {
@@ -16,6 +17,9 @@ function App() {
       <h2>
         Welcome to my personal website!
       </h2>
+
+      <h5>Just looking to connect? 🤝</h5>
+      <ButtonCollection buttons={connectData} />
 
       <hr className="border-gray-900 my-6 h-1 w-1/2" />
 

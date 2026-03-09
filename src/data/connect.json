@@ -1,0 +1,16 @@
+[
+    {
+        "name": "LinkedIn Logo",
+        "url": "https://www.linkedin.com/in/achita-chitraphan",
+        "colorVariant": "linkedIn",
+        "iconName": "Linkedin",
+        "message": "Connect on LinkedIn"
+    },
+    {
+        "name": "GitHub Logo",
+        "url": "https://github.com/KenjiTECHinc",
+        "colorVariant": "github",
+        "iconName": "Github",
+        "message": "Follow on GitHub"
+    }
+]
