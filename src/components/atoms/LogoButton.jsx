@@ -23,7 +23,7 @@ export function LogoButton({ href, iconName, altText, colorVariant, children }) 
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className={`inline-block px-4 py-2 m-2 items-center ${activeColorClasses} font-medium text-sm text-center rounded-lg shadow-md transition-all duration-200 ease-in-out hover:scale-105 cursor-pointer ${href === '' ? 'pointer-events-none opacity-50' : 'opacity-100'}`}
+            className={`inline-block px-4 py-2 m-2 items-center ${activeColorClasses} font-medium text-sm text-center rounded-lg shadow-sm transition-all duration-200 ease-in-out hover:scale-105 cursor-pointer ${href === '' ? 'pointer-events-none opacity-50' : 'opacity-100'}`}
         >
             <div className="flex items-center justify-center">
                 <IconComponent aria-label={altText} className="h-5 w-5 mr-3" />
