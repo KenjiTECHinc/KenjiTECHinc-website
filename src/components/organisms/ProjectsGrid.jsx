@@ -13,14 +13,14 @@ export function ProjectsGrid({ groupedProjects }) {
         <section className="py-12 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             {/* Interactive Filter Buttons */}
-            <div className="flex flex-wrap justify-center gap-3 mb-12">
+            <div className="flex flex-wrap justify-center gap-4 mb-12">
                 {allTags.map(tag => (
                     <button
                         key={tag}
                         onClick={() => setActiveFilter(tag)}
                         className={`px-4 py-2 rounded-full text-sm font-medium transition-all ease-in-out duration-100 cursor-pointer ${activeFilter === tag
                             ? 'bg-primary-500 text-white shadow-md scale-105'
-                            : 'bg-surface text-text-700 hover:bg-gray-100 hover:text-text-900 border border-gray-200 hover:scale-110'
+                            : 'bg-surface text-text-700 hover:bg-gray-100 hover:text-text-900 border border-gray-200 hover:scale-105'
                             }`}
                     >
                         {tag}
