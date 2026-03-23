@@ -5,7 +5,9 @@
   --color-primary-100: oklch(93.2% 0.032 255.585);
   --color-primary-300: oklch(80.9% 0.105 251.813);
   --color-primary-500: oklch(62.3% 0.214 259.815);
+  --color-primary-550: oklch(57.7% 0.230 261.350);
   --color-primary-600: oklch(54.6% 0.245 262.881);
+  --color-primary-650: oklch(51.8% 0.244 263.658);
   --color-primary-700: oklch(48.8% 0.243 264.376);
   --color-primary-800: oklch(42.4% 0.199 265.638);
 
@@ -18,6 +20,7 @@
   --color-border-100: oklch(96.7% 0.003 264.542);
   --color-border-200: oklch(92.8% 0.006 264.531);
 
+  --color-text-400: oklch(70.7% 0.022 261.325);
   --color-text-500: oklch(55.1% 0.027 264.364);
   --color-text-600: oklch(44.6% 0.03 256.802);
   --color-text-700: oklch(37.3% 0.034 259.733);
@@ -33,10 +36,15 @@
   --color-black: #000;
 
   --color-sky-600: oklch(58.8% 0.158 241.966);
+  --color-sky-650: oklch(54.8% 0.146 242.349);
   --color-sky-700: oklch(50% 0.134 242.749);
+  --color-sky-750: oklch(46.7% 0.12 242.749);
+  --color-sky-800: oklch(44.3% 0.11 240.79);
 
   --color-zinc-800: oklch(27.4% 0.006 286.033);
   --color-zinc-900: oklch(21% 0.006 285.885);
+
+  --color-violet-500: oklch(60.6% 0.25 292.717);
 }
 
 /* Base styles */
@@ -44,37 +52,37 @@
 
   /* Usually for Title */
   h1 {
-    @apply text-text-900 text-6xl font-extrabold mb-6 mt-2.5;
+    @apply text-text-900 text-4xl font-extrabold mb-6 mt-2.5 md:text-6xl;
   }
 
   /* Usually for Subtitle */
   h2 {
-    @apply text-text-700 text-3xl font-medium mb-3 mt-1;
+    @apply text-text-700 text-xl font-medium mb-3 mt-1 md:text-3xl;
   }
 
   /* Usually for section headers */
   h3 {
-    @apply text-text-700 text-5xl font-bold mb-4 mt-1.5;
+    @apply text-text-700 text-3xl font-bold mb-4 mt-1.5 md:text-5xl;
   }
 
   /* Usually for sub-section headers */
   h4 {
-    @apply text-text-600 text-3xl font-bold mb-2 mt-1;
+    @apply text-text-600 text-2xl font-bold mb-2 mt-1 md:text-3xl;
   }
 
   /* Usually for non-section headers, but still important titles */
   h5 {
-    @apply text-text-600 text-2xl font-semibold mb-2 mt-1;
+    @apply text-text-600 text-xl font-semibold mb-2 mt-1 md:text-2xl;
   }
 
   /* Title of a paragraph or a card */
   h6 {
-    @apply text-text-600 text-xl font-bold mb-2 mt-1;
+    @apply text-text-600 text-lg font-bold mb-2 mt-1 md:text-xl;
   }
 
   /* regular text */
   p {
-    @apply text-text-600 text-base mb-1.5 mt-1;
+    @apply text-text-600 text-xs mb-1.5 mt-1 md:text-base;
   }
 
   /* Divider */
@@ -84,3 +92,23 @@
 }
 
 @layer components {}
+
+@layer utilities {
+  @keyframes highTechPulse {
+
+    0%,
+    100% {
+      border-color: oklch(55.1% 0.027 264.364);
+      color: oklch(55.1% 0.027 264.364);
+    }
+
+    50% {
+      border-color: oklch(21% 0.034 264.665);
+      color: oklch(21% 0.034 264.665);
+    }
+  }
+
+  .animate-high-tech-pulse {
+    animation: highTechPulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
