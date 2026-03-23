@@ -18,7 +18,7 @@ export function ProjectsGrid({ groupedProjects }) {
                     <button
                         key={tag}
                         onClick={() => setActiveFilter(tag)}
-                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all ease-in-out duration-100 cursor-pointer ${activeFilter === tag
+                        className={`px-4 py-2 rounded-full text-xs md:text-sm font-medium transition-all ease-in-out duration-100 cursor-pointer ${activeFilter === tag
                             ? 'bg-primary-500 text-white shadow-md scale-105'
                             : 'bg-surface text-text-700 hover:bg-gray-100 hover:text-text-900 border border-gray-200 hover:scale-105'
                             }`}
