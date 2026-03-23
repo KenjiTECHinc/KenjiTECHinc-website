@@ -37,7 +37,7 @@ export function ScrollIndicator({ targetId }) {
                 onClick={handleScrollClick}
                 aria-label="Scroll to next section"
                 className='p-1 rounded-full bg-white flex items-center justify-center animate-high-tech-pulse cursor-pointer'>
-                <ChevronDown size={48} strokeWidth={1.5} />
+                <ChevronDown size={48} strokeWidth={1.5} aria-hidden="true" />
             </button>
         </div>
     );
