@@ -1,6 +1,7 @@
-import { ProjectsGrid } from '../organisms/ProjectsGrid';
-import { InternalLinkButton } from '../atoms/InternalLinkButton';
 import { ButtonCollection } from '../molecules/ButtonCollection';
+import { InternalLinkButton } from '../atoms/InternalLinkButton';
+import { ScrollIndicator } from '../atoms/ScrollIndicator';
+import { ProjectsGrid } from '../organisms/ProjectsGrid';
 import { Footer } from '../molecules/Footer';
 
 import projectsData from '../../data/projects.json';
@@ -32,6 +33,7 @@ export function HomePage() {
                 <p className='mt-5 font-semibold'>
                     This website is constantly under development, so expect new features and updates in the future! 🚀
                 </p>
+                <ScrollIndicator targetId="projects-section" />
             </section>
 
             <div className="w-full flex justify-center">
@@ -39,7 +41,7 @@ export function HomePage() {
             </div>
 
             {/* Projects display */}
-            <section className="flex flex-col items-center justify-center py-16 px-6 sm:px-4 lg:px-6 bg-surface/50">
+            <section id="projects-section" className="flex flex-col items-center justify-center py-16 px-6 sm:px-4 lg:px-6 bg-surface/50">
                 <h3>
                     Projects 🏗️
                 </h3>
