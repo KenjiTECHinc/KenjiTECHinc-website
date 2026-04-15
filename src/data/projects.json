@@ -1,5 +1,19 @@
 [
     {
+        "year": 2026,
+        "projects": [
+            {
+                "id": 11,
+                "title": "Job Scraping",
+                "description": "Web scraping project for collecting data and monitoring Thailand's tech job market situations.",
+                "techStack": [
+                    "Python"
+                ],
+                "link": "https://github.com/Nattapat140/job-scraping"
+            }
+        ]
+    },
+    {
         "year": 2025,
         "projects": [
             {
