@@ -1,7 +1,7 @@
 // src/components/molecules/ProjectCard.jsx
 import { Badge } from '../atoms/Badge';
 import { ExternalButton } from '../atoms/ExternalButton';
-export function ProjectCard({ title, description, techStack, link }) {
+export function ProjectCard({ title, description, techStack, repoLink, imageLink=null, liveLink=null }) {
     return (
         <div className="bg-surface px-6 py-4 rounded-2xl shadow-sm border border-border-200 flex flex-col h-full min-h-64 hover:shadow-md transition-shadow">
             {/* Title & Description */}
@@ -17,7 +17,7 @@ export function ProjectCard({ title, description, techStack, link }) {
 
             {/* Action */}
             <div className="mt-auto">
-                <ExternalButton href={link}>
+                <ExternalButton href={repoLink}>
                     Go to Project
                 </ExternalButton>
             </div>

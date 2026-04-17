@@ -6,7 +6,7 @@ export function ProjectsGrid({ groupedProjects }) {
     const [activeFilter, setActiveFilter] = useState('All');
 
     const allProjectsFlat = groupedProjects.flatMap(group => group.projects);
-    const uniqueSortedTags = [...new Set(allProjectsFlat.flatMap(project => project.techStack))].sort();
+    const uniqueSortedTags = [...new Set(allProjectsFlat.flatMap(project => project.tech_stack))].sort();
     const allTags = ['All', ...uniqueSortedTags];
 
     return (
@@ -35,7 +35,7 @@ export function ProjectsGrid({ groupedProjects }) {
                     // Filter projects ONLY for this specific year
                     const filteredProjectsForYear = activeFilter === 'All'
                         ? yearGroup.projects
-                        : yearGroup.projects.filter(project => project.techStack.includes(activeFilter));
+                        : yearGroup.projects.filter(project => project.tech_stack.includes(activeFilter));
 
                     // Skip rendering empty year groups
                     if (filteredProjectsForYear.length === 0) {
@@ -54,14 +54,14 @@ export function ProjectsGrid({ groupedProjects }) {
                             </div>
 
                             {/* The Grid of Cards for this Year */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
                                 {filteredProjectsForYear.map(project => (
                                     <ProjectCard
                                         key={project.id}
                                         title={project.title}
                                         description={project.description}
-                                        techStack={project.techStack}
-                                        link={project.link}
+                                        techStack={project.tech_stack || []}
+                                        repoLink={project.repo_url}
                                     />
                                 ))}
                             </div>
@@ -72,9 +72,9 @@ export function ProjectsGrid({ groupedProjects }) {
             </div>
 
             {/* Fallback if a filter results in NO projects across ANY year */}
-            {allProjectsFlat.filter(p => activeFilter === 'All' || p.techStack.includes(activeFilter)).length === 0 && (
+            {allProjectsFlat.filter(p => activeFilter === 'All' || p.tech_stack.includes(activeFilter)).length === 0 && (
                 <div className="text-center text-text-muted mt-12 w-full">
-                    <p>No projects found for this category.</p>
+                    <p>No projects found right now.</p>
                 </div>
             )}
 
