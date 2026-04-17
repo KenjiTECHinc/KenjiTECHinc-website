@@ -4,7 +4,6 @@ import { InternalLinkButton } from '../atoms/InternalLinkButton';
 import { ScrollIndicator } from '../atoms/ScrollIndicator';
 import { ProjectsGrid } from '../organisms/ProjectsGrid';
 import { Footer } from '../molecules/Footer';
-import { GeoLocation } from '../atoms/GeoLocation';
 
 import { supabase } from '../../lib/supabaseClient';
 import connectData from '../../data/connect.json';
@@ -58,8 +57,6 @@ export function HomePage() {
                     <h2>
                         Welcome to my personal website!
                     </h2>
-
-                    <GeoLocation />
 
                     {/* Networking buttons */}
                     <h5>Just looking to connect? 🤝</h5>
