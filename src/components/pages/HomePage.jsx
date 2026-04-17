@@ -90,7 +90,6 @@ export function HomePage() {
                     ) : (
                         <ProjectsGrid groupedProjects={projectsData} />
                     )}
-                    {/* <ProjectsGrid groupedProjects={projectsData} /> */}
                 </section>
             </main>
             <Footer />
