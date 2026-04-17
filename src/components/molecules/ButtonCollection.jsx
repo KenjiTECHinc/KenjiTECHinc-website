@@ -7,12 +7,11 @@ export function ButtonCollection({ buttons }) {
 
     return (
         <div className="flex flex-wrap justify-center gap-4 mt-2 mb-2">
-            {buttonsFlat.map(button => (
+            {buttonsFlat.map((button, index) => (
                 <LogoButton
+                    key={index}
                     href={button.url}
-                    iconName={button.iconName}
-                    altText={button.name}
-                    colorVariant={button.colorVariant}
+                    name={button.name}
                 >
                     {button.message}
                 </LogoButton>

@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 @import "tailwindcss";
 
 @theme {
+  /* color palette */
   --color-primary-50: oklch(97% 0.014 254.604);
   --color-primary-100: oklch(93.2% 0.032 255.585);
   --color-primary-300: oklch(80.9% 0.105 251.813);
@@ -41,10 +43,19 @@
   --color-sky-750: oklch(46.7% 0.12 242.749);
   --color-sky-800: oklch(44.3% 0.11 240.79);
 
+  --color-red-600: oklch(57.7% 0.245 27.325);
+  --color-red-650: oklch(54.0% 0.230 27.325);
+  --color-red-700: oklch(50.5% 0.213 27.518);
+  --color-red-800: oklch(44.4% 0.177 26.899);
+
   --color-zinc-800: oklch(27.4% 0.006 286.033);
   --color-zinc-900: oklch(21% 0.006 285.885);
 
   --color-violet-500: oklch(60.6% 0.25 292.717);
+
+  /* font family */
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
 }
 
 /* Base styles */
@@ -52,37 +63,37 @@
 
   /* Usually for Title */
   h1 {
-    @apply text-text-900 text-4xl font-extrabold mb-6 mt-2.5 md:text-6xl;
+    @apply font-mono text-text-900 text-4xl font-extrabold mb-6 mt-2.5 md:text-6xl;
   }
 
   /* Usually for Subtitle */
   h2 {
-    @apply text-text-700 text-xl font-medium mb-3 mt-1 md:text-3xl;
+    @apply font-mono text-text-700 text-xl font-medium mb-3 mt-1 md:text-3xl;
   }
 
   /* Usually for section headers */
   h3 {
-    @apply text-text-700 text-3xl font-bold mb-4 mt-1.5 md:text-5xl;
+    @apply font-mono text-text-700 text-3xl font-bold mb-4 mt-1.5 md:text-5xl;
   }
 
   /* Usually for sub-section headers */
   h4 {
-    @apply text-text-600 text-2xl font-bold mb-2 mt-1 md:text-3xl;
+    @apply font-mono text-text-600 text-2xl font-bold mb-2 mt-1 md:text-3xl;
   }
 
   /* Usually for non-section headers, but still important titles */
   h5 {
-    @apply text-text-600 text-xl font-semibold mb-2 mt-1 md:text-2xl;
+    @apply font-mono text-text-600 text-xl font-semibold mb-2 mt-1 md:text-2xl;
   }
 
   /* Title of a paragraph or a card */
   h6 {
-    @apply text-text-600 text-lg font-bold mb-2 mt-1 md:text-xl;
+    @apply font-mono text-text-600 text-lg font-bold mb-2 mt-1 md:text-xl;
   }
 
   /* regular text */
   p {
-    @apply text-text-600 text-xs mb-1.5 mt-1 md:text-base;
+    @apply font-sans text-text-600 text-xs mb-1.5 mt-1 md:text-sm 2xl:text-base;
   }
 
   /* Divider */

@@ -1,14 +1,53 @@
+import { useState, useEffect } from 'react';
 import { ButtonCollection } from '../molecules/ButtonCollection';
 import { InternalLinkButton } from '../atoms/InternalLinkButton';
 import { ScrollIndicator } from '../atoms/ScrollIndicator';
 import { ProjectsGrid } from '../organisms/ProjectsGrid';
 import { Footer } from '../molecules/Footer';
+import { GeoLocation } from '../atoms/GeoLocation';
 
-import projectsData from '../../data/projects.json';
+import { supabase } from '../../lib/supabaseClient';
 import connectData from '../../data/connect.json';
 
 
 export function HomePage() {
+    const [projectsData, setProjectsData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchProjects() {
+            // Fetch all projects from Supabase, ordered by year
+            const { data, error } = await supabase
+                .from('projects')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error("Error fetching projects:", error);
+                setIsLoading(false);
+                return;
+            }
+
+            const groupedObj = data.reduce((acc, project) => {
+                const year = project.year.toString();
+                if (!acc[year]) acc[year] = [];
+                acc[year].push(project);
+                return acc;
+            }, {});
+            const formattedArray = Object.entries(groupedObj)
+                .map(([year, projectsArray]) => ({
+                    year: year,
+                    projects: projectsArray
+                }))
+                .sort((a, b) => Number(b.year) - Number(a.year));
+
+            setProjectsData(formattedArray);
+            setIsLoading(false);
+        }
+
+        fetchProjects();
+    }, []);
+
     return (
         <div className="min-h-screen flex flex-col items-center justify-center">
             <main>
@@ -19,6 +58,8 @@ export function HomePage() {
                     <h2>
                         Welcome to my personal website!
                     </h2>
+
+                    <GeoLocation />
 
                     {/* Networking buttons */}
                     <h5>Just looking to connect? 🤝</h5>
@@ -46,7 +87,13 @@ export function HomePage() {
                     <h3>
                         Projects 🏗️
                     </h3>
-                    <ProjectsGrid groupedProjects={projectsData} />
+                    {/* Show a loading state, or pass the live data into the Grid */}
+                    {isLoading ? (
+                        <div className="text-center text-text-muted">Loading projects from database...</div>
+                    ) : (
+                        <ProjectsGrid groupedProjects={projectsData} />
+                    )}
+                    {/* <ProjectsGrid groupedProjects={projectsData} /> */}
                 </section>
             </main>
             <Footer />
