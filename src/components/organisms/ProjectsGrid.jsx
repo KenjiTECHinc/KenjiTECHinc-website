@@ -6,7 +6,7 @@ export function ProjectsGrid({ groupedProjects }) {
     const [activeFilter, setActiveFilter] = useState('All');
 
     const allProjectsFlat = groupedProjects.flatMap(group => group.projects);
-    const uniqueSortedTags = [...new Set(allProjectsFlat.flatMap(project => project.tech_stack))].sort();
+    const uniqueSortedTags = [...new Set(allProjectsFlat.flatMap(project => project.techStack))].sort();
     const allTags = ['All', ...uniqueSortedTags];
 
     return (
@@ -35,7 +35,7 @@ export function ProjectsGrid({ groupedProjects }) {
                     // Filter projects ONLY for this specific year
                     const filteredProjectsForYear = activeFilter === 'All'
                         ? yearGroup.projects
-                        : yearGroup.projects.filter(project => project.tech_stack.includes(activeFilter));
+                        : yearGroup.projects.filter(project => project.techStack.includes(activeFilter));
 
                     // Skip rendering empty year groups
                     if (filteredProjectsForYear.length === 0) {
@@ -60,8 +60,8 @@ export function ProjectsGrid({ groupedProjects }) {
                                         key={project.id}
                                         title={project.title}
                                         description={project.description}
-                                        techStack={project.tech_stack || []}
-                                        repoLink={project.repo_url}
+                                        techStack={project.techStack} // Back to camelCase!
+                                        link={project.repoUrl}
                                     />
                                 ))}
                             </div>
@@ -72,7 +72,7 @@ export function ProjectsGrid({ groupedProjects }) {
             </div>
 
             {/* Fallback if a filter results in NO projects across ANY year */}
-            {allProjectsFlat.filter(p => activeFilter === 'All' || p.tech_stack.includes(activeFilter)).length === 0 && (
+            {allProjectsFlat.filter(p => activeFilter === 'All' || p.techStack.includes(activeFilter)).length === 0 && (
                 <div className="text-center text-text-muted mt-12 w-full">
                     <p>No projects found right now.</p>
                 </div>
