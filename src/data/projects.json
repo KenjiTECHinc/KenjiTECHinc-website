@@ -1,0 +1,152 @@
+[
+    {
+        "year": "2026",
+        "projects": [
+            {
+                "id": 13,
+                "title": "QR Code Phishing Detection",
+                "description": "A short project using LLM to help analyze and defend against phishing through emails and fake URLs.",
+                "techStack": [
+                    "Python",
+                    "LLM"
+                ],
+                "repoUrl": "https://github.com/Kyou140/QR-Code-Phishing"
+            },
+            {
+                "id": 12,
+                "title": "Job Scraping [Thai]",
+                "description": "Web scraping project for collecting data and monitoring Thailand's tech job market situations.",
+                "techStack": [
+                    "Python"
+                ],
+                "repoUrl": "https://github.com/Nattapat140/job-scraping"
+            },
+            {
+                "id": 11,
+                "title": "KenjiTECHinc's Website",
+                "description": "The very personal website you're on right now! This site serves as a playground and showcase for other cool projects.",
+                "techStack": [
+                    "React"
+                ],
+                "repoUrl": "https://github.com/KenjiTECHinc/KenjiTECHinc-website"
+            }
+        ]
+    },
+    {
+        "year": "2025",
+        "projects": [
+            {
+                "id": 10,
+                "title": "MICCAI 2025 - SurgVU",
+                "description": "Computer vision ML project for classifying surgical tools in videos, submitted to MICCAI 2025 competition & conference.",
+                "techStack": [
+                    "Python",
+                    "YOLO",
+                    "CNN",
+                    "AI"
+                ],
+                "repoUrl": "https://github.com/Surg-Troopers"
+            },
+            {
+                "id": 9,
+                "title": "ACM ICAIF'24 Finance RAG",
+                "description": "RAG system project for financial documents retrieval for ICAIF'24 competition.",
+                "techStack": [
+                    "RAG",
+                    "LLM",
+                    "Python",
+                    "AI"
+                ],
+                "repoUrl": "https://github.com/KenjiTECHinc/ICAIF-FinanceRAG"
+            },
+            {
+                "id": 8,
+                "title": "Minesweep Plus 💣",
+                "description": "First try at React, built a classic Minesweeper game! Why the 'Plus'? Because it sounds cooler.",
+                "techStack": [
+                    "React"
+                ],
+                "repoUrl": "https://github.com/KenjiTECHinc/minesweep-plus"
+            },
+            {
+                "id": 7,
+                "title": "Website AdBlocker ⛔",
+                "description": "Are you tired of Ads? Try this Ad-blocker Chrome extension that blocks sponsored posts on LinkedIn.",
+                "techStack": [
+                    "JavaScript"
+                ],
+                "repoUrl": "https://github.com/KenjiTECHinc/web-adblocker"
+            }
+        ]
+    },
+    {
+        "year": "2024",
+        "projects": [
+            {
+                "id": 6,
+                "title": "English-Braille Text OCR and Translation",
+                "description": "Machine Learning project that uses OCR to translate English books into Braille.",
+                "techStack": [
+                    "Python",
+                    "TensorFlow",
+                    "OpenCV",
+                    "CNN",
+                    "AI"
+                ],
+                "repoUrl": "https://github.com/KenjiTECHinc/English-Braille-translator"
+            },
+            {
+                "id": 5,
+                "title": "Patent Portfolio Dashboard",
+                "description": "A dashboard for visualizing System on Chip (SoC) patent portfolios from 3 main competitors in the market.",
+                "techStack": [
+                    "SQLite",
+                    "Python"
+                ],
+                "repoUrl": "https://github.com/KenjiTECHinc/PatentPortfolio-Dashboard"
+            },
+            {
+                "id": 4,
+                "title": "BFriends App",
+                "description": "An app for finding friends with common interests!",
+                "techStack": [
+                    "Flutter",
+                    "Google Cloud"
+                ],
+                "repoUrl": "https://github.com/BFriends-inc/BFriends-app"
+            }
+        ]
+    },
+    {
+        "year": "2023",
+        "projects": [
+            {
+                "id": 3,
+                "title": "Reflex Trainer",
+                "description": "Verilog game inspired by Aimlabs, playable on FPGA. While not as relevant, I feel very proud of it I got to show off. 😆",
+                "techStack": [
+                    "Verilog"
+                ],
+                "repoUrl": "https://github.com/KenjiTECHinc/Reflex-Trainer"
+            },
+            {
+                "id": 2,
+                "title": "MinitChess Bot",
+                "description": "My first exposure into the world of AI. It's a simple chess bot implemented in C++ with basic AI algorithm.",
+                "techStack": [
+                    "C++"
+                ],
+                "repoUrl": "https://github.com/KenjiTECHinc/MinitChess-Bot"
+            },
+            {
+                "id": 1,
+                "title": "Tower Defense Game 🎯",
+                "description": "A fun tower defense game implemented with C++. Barely knew how to code then, time flies! 🤯",
+                "techStack": [
+                    "C++"
+                ],
+                "repoUrl": "https://github.com/KenjiTECHinc/TowerDefense-Game"
+            }
+        ]
+    }
+]
