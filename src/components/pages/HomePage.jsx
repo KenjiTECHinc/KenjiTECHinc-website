@@ -33,6 +33,10 @@ export function HomePage() {
                         Visit Agent 🤖
                     </InternalLinkButton>
 
+                    <InternalLinkButton to="/blog/first-post" label="Read My First Blog Post">
+                        Read My First Blog Post 📝
+                    </InternalLinkButton>
+
                     <p className='mt-5 font-semibold'>
                         This website is constantly under development, so expect new features and updates in the future! 🚀
                     </p>

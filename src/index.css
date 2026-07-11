@@ -100,6 +100,11 @@
   hr {
     @apply border-gray-200 my-6;
   }
+
+  /* Time */
+  time {
+    @apply font-sans text-text-600 text-xs mb-1.5 mt-1 md:text-sm 2xl:text-base;
+  }
 }
 
 @layer components {}
