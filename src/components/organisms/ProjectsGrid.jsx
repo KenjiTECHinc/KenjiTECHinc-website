@@ -61,7 +61,7 @@ export function ProjectsGrid({ groupedProjects }) {
                                         title={project.title}
                                         description={project.description}
                                         techStack={project.techStack} // Back to camelCase!
-                                        link={project.repoUrl}
+                                        repoLink={project.repoUrl}
                                     />
                                 ))}
                             </div>
