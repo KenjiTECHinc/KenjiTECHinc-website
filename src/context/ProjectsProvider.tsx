@@ -1,11 +1,16 @@
-// src/context/ProjectsContext.jsx
-import { createContext, useContext, useState, useEffect } from 'react';
+// src/context/ProjectsProvider.tsx
+import { useState, useEffect } from 'react';
+import type { ReactNode } from 'react';
 import { supabase } from '../lib/supabaseClient';
+import { ProjectsContext } from './projectsContext';
+import type { Project, ProjectRow, YearGroup } from '../types';
 
-const ProjectsContext = createContext();
+interface ProjectsProviderProps {
+    children: ReactNode;
+}
 
-export function ProjectsProvider({ children }) {
-    const [projectsData, setProjectsData] = useState([]);
+export function ProjectsProvider({ children }: ProjectsProviderProps) {
+    const [projectsData, setProjectsData] = useState<YearGroup[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [hasFetched, setHasFetched] = useState(false);
 
@@ -25,14 +30,16 @@ export function ProjectsProvider({ children }) {
                 return;
             }
 
-            const groupedObj = data.reduce((acc, project) => {
+            const rows = (data ?? []) as ProjectRow[];
+
+            const groupedObj = rows.reduce<Record<string, Project[]>>((acc, project) => {
                 const year = project.year.toString();
                 if (!acc[year]) acc[year] = [];
                 acc[year].push(project);
                 return acc;
             }, {});
 
-            const formattedArray = Object.entries(groupedObj)
+            const formattedArray: YearGroup[] = Object.entries(groupedObj)
                 .map(([year, projectsArray]) => ({
                     year: year,
                     projects: projectsArray
@@ -52,14 +59,4 @@ export function ProjectsProvider({ children }) {
             {children}
         </ProjectsContext.Provider>
     );
-}
-
-export function useProjects() {
-    const context = useContext(ProjectsContext);
-
-    if (!context) {
-        throw new Error("useProjects must be used inside a ProjectsProvider layout wrapper.");
-    }
-
-    return context;
 }

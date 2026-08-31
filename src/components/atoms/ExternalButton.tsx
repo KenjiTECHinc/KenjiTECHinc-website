@@ -1,5 +1,12 @@
-// src/components/atoms/ExternalLinkButton.jsx
-export function ExternalButton({ href, children }) {
+// src/components/atoms/ExternalButton.tsx
+import type { ReactNode } from 'react';
+
+interface ExternalButtonProps {
+    href: string;
+    children: ReactNode;
+}
+
+export function ExternalButton({ href, children }: ExternalButtonProps) {
     return (
         <a
             href={href}

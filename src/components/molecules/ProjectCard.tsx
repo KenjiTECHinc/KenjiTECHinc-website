@@ -1,7 +1,17 @@
-// src/components/molecules/ProjectCard.jsx
+// src/components/molecules/ProjectCard.tsx
 import { Badge } from '../atoms/Badge';
 import { ExternalButton } from '../atoms/ExternalButton';
-export function ProjectCard({ title, description, techStack, repoLink, imageLink=null, liveLink=null }) {
+
+interface ProjectCardProps {
+    title: string;
+    description: string;
+    techStack: string[];
+    repoLink: string;
+    imageLink?: string | null;
+    liveLink?: string | null;
+}
+
+export function ProjectCard({ title, description, techStack, repoLink }: ProjectCardProps) {
     return (
         <div className="bg-surface px-6 py-4 rounded-2xl shadow-sm border border-border-200 flex flex-col h-full min-h-64 hover:shadow-md transition-shadow">
             {/* Title & Description */}

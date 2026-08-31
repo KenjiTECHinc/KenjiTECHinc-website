@@ -1,8 +1,12 @@
-// src/components/atoms/ScrollIndicator.jsx
+// src/components/atoms/ScrollIndicator.tsx
 import { useState, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 
-export function ScrollIndicator({ targetId }) {
+interface ScrollIndicatorProps {
+    targetId: string;
+}
+
+export function ScrollIndicator({ targetId }: ScrollIndicatorProps) {
     const [isVisible, setIsVisible] = useState(true);
 
     // Listen to the window scroll event to hide/show the button

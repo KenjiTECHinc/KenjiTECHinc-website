@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react';
 import { ButtonCollection } from '../molecules/ButtonCollection';
 import { InternalLinkButton } from '../atoms/InternalLinkButton';
 import { ScrollIndicator } from '../atoms/ScrollIndicator';
 import { ProjectsGrid } from '../organisms/ProjectsGrid';
 import { Footer } from '../molecules/Footer';
 
-// import { useProjects } from '../../context/ProjectsContext';
+// import { useProjects } from '../../context/projectsContext';
 import projectsData from '../../data/projects.json';
 import connectData from '../../data/connect.json';
 

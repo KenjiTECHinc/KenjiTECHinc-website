@@ -1,4 +1,4 @@
-// src/components/molecules/Footer.jsx
+// src/components/molecules/Footer.tsx
 
 export function Footer() {
     const currentYear = new Date().getFullYear();
