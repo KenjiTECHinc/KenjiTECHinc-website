@@ -1,15 +1,20 @@
-// src/components/atoms/GeoLocation.jsx
+// src/components/atoms/GeoLocation.tsx
 import { useState, useEffect } from 'react';
 
+interface GeoLocationData {
+    city: string;
+    country: string;
+}
+
 export function GeoLocation() {
-    const [location, setLocation] = useState(null);
+    const [location, setLocation] = useState<GeoLocationData | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         // Call the Vercel serverless function we just created
         fetch('../../api/geolocation')
             .then((response) => response.json())
-            .then((data) => {
+            .then((data: GeoLocationData) => {
                 setLocation(data);
                 setIsLoading(false);
             })

@@ -1,8 +1,13 @@
-// src/components/organisms/ProjectsGrid.jsx
+// src/components/organisms/ProjectsGrid.tsx
 import { useState } from 'react';
 import { ProjectCard } from '../molecules/ProjectCard';
+import type { YearGroup } from '../../types';
 
-export function ProjectsGrid({ groupedProjects }) {
+interface ProjectsGridProps {
+    groupedProjects: YearGroup[];
+}
+
+export function ProjectsGrid({ groupedProjects }: ProjectsGridProps) {
     const [activeFilter, setActiveFilter] = useState('All');
 
     const allProjectsFlat = groupedProjects.flatMap(group => group.projects);
@@ -61,7 +66,7 @@ export function ProjectsGrid({ groupedProjects }) {
                                         title={project.title}
                                         description={project.description}
                                         techStack={project.techStack} // Back to camelCase!
-                                        link={project.repoUrl}
+                                        repoLink={project.repoUrl}
                                     />
                                 ))}
                             </div>
