@@ -1,8 +1,9 @@
-// src/components/pages/BlogPostPage.jsx
+// src/components/pages/BlogPostPage.tsx
+import type { MDXComponents } from 'mdx/types';
 import { InternalLinkButton } from '../atoms/InternalLinkButton';
 import FirstPost from '../../data/posts/github-education.mdx';
 
-const customMdxComponents = {
+const customMdxComponents: MDXComponents = {
     a: (props) => (
         <a
             {...props}

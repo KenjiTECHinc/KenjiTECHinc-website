@@ -1,4 +1,4 @@
-// src/components/atoms/InteractiveDemo.jsx
+// src/components/atoms/InteractiveDemo.tsx
 import { useState } from 'react';
 
 export function InteractiveDemo() {
