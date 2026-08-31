@@ -1,4 +1,4 @@
-// api/geolocation.js
+// api/geolocation.ts
 import { geolocation } from '@vercel/functions';
 
 // use Vercel edge network since our function is lightweight

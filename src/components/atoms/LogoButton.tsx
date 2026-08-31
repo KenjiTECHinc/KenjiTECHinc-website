@@ -1,4 +1,5 @@
-// src/components/atoms/LogoButton.jsx
+// src/components/atoms/LogoButton.tsx
+import type { ReactNode } from 'react';
 import { SiGmail } from 'react-icons/si';
 import { FaLinkedin, FaGithub, FaGlobe } from 'react-icons/fa6';
 
@@ -7,18 +8,28 @@ const colorVariants = {
     Github: 'bg-zinc-800 hover:bg-zinc-900 text-white',
     Gmail: 'bg-red-650 hover:bg-red-700 text-white',
     Default: 'bg-primary-550 hover:bg-primary-600 text-white'
-};
+} as const;
+
+type LogoName = keyof typeof colorVariants;
 
 const iconMap = {
     Linkedin: FaLinkedin,
     Github: FaGithub,
     Gmail: SiGmail,
     Default: FaGlobe // fallback icon
-};
+} satisfies Record<LogoName, unknown>;
 
-export function LogoButton({ href, name, children }) {
-    const activeColorClasses = colorVariants[name] || colorVariants.Default;
-    const IconComponent = iconMap[name] || iconMap.Default;
+interface LogoButtonProps {
+    href: string;
+    /** Unrecognized names fall back to the Default colour and globe icon. */
+    name: string;
+    children: ReactNode;
+}
+
+export function LogoButton({ href, name, children }: LogoButtonProps) {
+    const logoKey: LogoName = name in colorVariants ? (name as LogoName) : 'Default';
+    const activeColorClasses = colorVariants[logoKey];
+    const IconComponent = iconMap[logoKey];
 
     return (
         <a
