@@ -1,7 +1,10 @@
 import { InternalLinkButton } from '../atoms/InternalLinkButton';
 import { Footer } from '../molecules/Footer';
+import { useScrollToTop } from '../../hooks/useScrollToTop';
 
 export function AgentPage() {
+    useScrollToTop();
+
     return (
         <div className="min-h-screen flex flex-col items-center justify-center">
             <main>

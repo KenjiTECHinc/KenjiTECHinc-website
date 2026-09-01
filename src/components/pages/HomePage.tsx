@@ -1,11 +1,8 @@
 import { ButtonCollection } from '../molecules/ButtonCollection';
 import { InternalLinkButton } from '../atoms/InternalLinkButton';
-import { ScrollIndicator } from '../atoms/ScrollIndicator';
-import { ProjectsGrid } from '../organisms/ProjectsGrid';
 import { Footer } from '../molecules/Footer';
 
 // import { useProjects } from '../../context/projectsContext';
-import projectsData from '../../data/projects.json';
 import connectData from '../../data/connect.json';
 
 
@@ -32,28 +29,17 @@ export function HomePage() {
                         Visit Agent 🤖
                     </InternalLinkButton>
 
+                    <InternalLinkButton to="/blogs" label="View Blogs">
+                        View Blogs 📝
+                    </InternalLinkButton>
+
+                    <InternalLinkButton to="/projects" label="View Projects">
+                        View Projects 🏗️
+                    </InternalLinkButton>
+
                     <p className='mt-5 font-semibold'>
                         This website is constantly under development, so expect new features and updates in the future! 🚀
                     </p>
-                    <ScrollIndicator targetId="projects-section" />
-                </section>
-
-                <div className="w-full flex justify-center">
-                    <hr className="w-1/2 border-t-2 border-border-200" />
-                </div>
-
-                {/* Projects display */}
-                <section id="projects-section" className="flex flex-col items-center justify-center py-16 px-6 sm:px-4 lg:px-6 bg-surface/50">
-                    <h3>
-                        Projects 🏗️
-                    </h3>
-                    {projectsData.length === 0 ? (
-                        <p className="mt-4 text-gray-600">
-                            No projects to display at the moment. Please check back later!
-                        </p>
-                    ) : (
-                        <ProjectsGrid groupedProjects={projectsData} />
-                    )}
                 </section>
             </main>
             <Footer />
