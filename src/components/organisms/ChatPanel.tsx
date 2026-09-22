@@ -32,9 +32,11 @@ export function ChatPanel({
         node.scrollTop = node.scrollHeight;
     }, [messages, isPending]);
 
-    const chips: ChatSuggestion[] = messages.length === 0
-        ? STARTER_SUGGESTIONS
-        : suggestions.map((text) => ({ label: text, prompt: text }));
+    const chips: ChatSuggestion[] = isPending
+        ? []
+        : messages.length === 0
+            ? STARTER_SUGGESTIONS
+            : suggestions.map((text) => ({ label: text, prompt: text }));
 
     const selectSuggestion = (prompt: string) => {
         prefillId.current += 1;
