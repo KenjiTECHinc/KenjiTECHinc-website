@@ -219,6 +219,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     res.status(200).json({ reply: split.reply, suggestions });
   } catch (err) {
     console.error("chat handler error:", err);
-    res.status(500).json({ error: "Something went wrong generating a response." });
+    res.status(500).json({ error: "Something went wrong generating a response, please try again after a moment. Or contact the site owner for support." });
   }
 }
