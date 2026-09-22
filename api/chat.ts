@@ -14,10 +14,13 @@ import { toolDeclarations, executeTool, buildSystemPrompt } from "./_lib/tools.j
 
 const MODEL = process.env.GEMINI_MODEL || "gemini-flash-latest";
 const MAX_TOOL_ROUNDS = 4;
+const MAX_HISTORY_TURNS = 12;
+const MAX_TURN_CHARS = 2000;
 
-// Basic in-memory rate limit per cold start — swap for Upstash/Vercel KV if
-// you want this to hold across invocations. Cheap insurance against a bot
-// hammering your free Gemini quota.
+// Warm-instance backstop only. This Map resets on a cold start and does not
+// write to Vercel Runtime Cache. The durable limit is the Vercel Firewall
+// rule on POST /api/chat (10 requests / 60 seconds per IP). See
+// api/chat/chatbot_setup.md.
 const RATE_LIMIT = new Map<string, { count: number; resetAt: number }>();
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 10;
@@ -36,6 +39,25 @@ function isRateLimited(ip: string): boolean {
 interface ChatMessage {
   role: "user" | "model";
   text: string;
+}
+
+function normalizeHistory(history: unknown): ChatMessage[] | undefined {
+  if (history === undefined || history === null) return [];
+  if (!Array.isArray(history)) return undefined;
+
+  const turns: ChatMessage[] = [];
+  for (const item of history) {
+    if (!item || typeof item !== "object") return undefined;
+    const record = item as Record<string, unknown>;
+    if (record.role !== "user" && record.role !== "model") return undefined;
+    if (typeof record.text !== "string") return undefined;
+    turns.push({
+      role: record.role,
+      text: record.text.slice(0, MAX_TURN_CHARS),
+    });
+  }
+
+  return turns.slice(-MAX_HISTORY_TURNS);
 }
 
 let client: GoogleGenAI | null = null;
@@ -61,10 +83,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
-  const { message, history } = req.body as { message?: string; history?: ChatMessage[] };
+  const body = req.body as { message?: unknown; history?: unknown } | undefined;
+  const message = body?.message;
+  const history = normalizeHistory(body?.history);
 
-  if (!message || typeof message !== "string" || message.length > 2000) {
+  if (!message || typeof message !== "string" || message.length > MAX_TURN_CHARS) {
     res.status(400).json({ error: "Missing message, or message too long (max 2000 chars)." });
+    return;
+  }
+
+  if (!history) {
+    res.status(400).json({ error: "History must be an array of { role, text } turns." });
     return;
   }
 
@@ -72,9 +101,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const ai = getClient();
 
     const contents = [
-      ...(history ?? []).map((m) => ({
-        role: m.role,
-        parts: [{ text: m.text }],
+      ...history.map((turn) => ({
+        role: turn.role,
+        parts: [{ text: turn.text }],
       })),
       { role: "user", parts: [{ text: message }] },
     ];

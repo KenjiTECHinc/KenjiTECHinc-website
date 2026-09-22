@@ -1,0 +1,6 @@
+# Public pages may be crawled. API routes are not site content.
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://www.achita-c.com/sitemap.xml

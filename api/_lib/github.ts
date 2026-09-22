@@ -3,35 +3,72 @@
 // Thin wrapper around the GitHub REST API for repo stats: last push date,
 // primary language, language breakdown, and top-level file structure.
 //
-// Caching note: Vercel serverless functions are stateless between cold
-// starts, so this in-memory cache only helps on warm invocations (which is
-// still useful — bursts of visitor questions in the same session will often
-// hit a warm function). If you want caching that survives cold starts,
-// swap CACHE for Vercel KV or Upstash Redis (both have free tiers) — the
-// get/set calls below are the only thing you'd need to change.
+// Successful responses are stored in Vercel Runtime Cache for 15 minutes so
+// they survive cold starts. Keys are prefixed because Hobby shares one cache
+// across every project on the team. Chat turns and rate limits are not stored
+// here. If Runtime Cache is unavailable (local `vercel dev`), the in-memory
+// map below is the fallback for the current process.
+
+import { getCache } from "@vercel/functions";
 
 const GITHUB_API = "https://api.github.com";
-const CACHE_TTL_MS = 15 * 60 * 1000; // 15 minutes — repo metadata doesn't change that often
+const CACHE_TTL_SECONDS = 15 * 60; // repo metadata doesn't change that often
+const CACHE_TTL_MS = CACHE_TTL_SECONDS * 1000;
 
 interface CacheEntry<T> {
   data: T;
   expiresAt: number;
 }
 
-const CACHE = new Map<string, CacheEntry<unknown>>();
+const MEMORY_CACHE = new Map<string, CacheEntry<unknown>>();
 
-function getCached<T>(key: string): T | undefined {
-  const entry = CACHE.get(key);
+function memoryGet<T>(key: string): T | undefined {
+  const entry = MEMORY_CACHE.get(key);
   if (!entry) return undefined;
   if (Date.now() > entry.expiresAt) {
-    CACHE.delete(key);
+    MEMORY_CACHE.delete(key);
     return undefined;
   }
   return entry.data as T;
 }
 
-function setCached<T>(key: string, data: T): void {
-  CACHE.set(key, { data, expiresAt: Date.now() + CACHE_TTL_MS });
+function memorySet<T>(key: string, data: T): void {
+  MEMORY_CACHE.set(key, { data, expiresAt: Date.now() + CACHE_TTL_MS });
+}
+
+function isRepoStats(value: unknown): value is RepoStats {
+  if (!value || typeof value !== "object") return false;
+  const stats = value as Record<string, unknown>;
+  return (
+    typeof stats.repo === "string" &&
+    typeof stats.defaultBranch === "string" &&
+    typeof stats.lastPushedAt === "string" &&
+    typeof stats.stars === "number" &&
+    Array.isArray(stats.topLevelFiles) &&
+    Array.isArray(stats.topLevelDirs)
+  );
+}
+
+async function readRepoCache(key: string): Promise<RepoStats | undefined> {
+  try {
+    const cached = await getCache().get(key);
+    if (isRepoStats(cached)) return cached;
+  } catch {
+    return memoryGet<RepoStats>(key);
+  }
+  return memoryGet<RepoStats>(key);
+}
+
+async function writeRepoCache(key: string, stats: RepoStats): Promise<void> {
+  memorySet(key, stats);
+  try {
+    await getCache().set(key, stats, {
+      ttl: CACHE_TTL_SECONDS,
+      name: "github-repo-stats",
+    });
+  } catch {
+    // Runtime Cache is unavailable outside Vercel. The memory entry is enough.
+  }
 }
 
 function githubHeaders(): HeadersInit {
@@ -76,8 +113,8 @@ async function githubFetch(path: string): Promise<any> {
 
 // repo: "owner/name"
 export async function getRepoStats(repo: string): Promise<RepoStats> {
-  const cacheKey = `repo-stats:${repo}`;
-  const cached = getCached<RepoStats>(cacheKey);
+  const cacheKey = `kenjitechinc:repo-stats:${repo}`;
+  const cached = await readRepoCache(cacheKey);
   if (cached) return cached;
 
   const [repoData, languages, contents] = await Promise.all([
@@ -105,6 +142,6 @@ export async function getRepoStats(repo: string): Promise<RepoStats> {
     topLevelDirs,
   };
 
-  setCached(cacheKey, stats);
+  await writeRepoCache(cacheKey, stats);
   return stats;
 }

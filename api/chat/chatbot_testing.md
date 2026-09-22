@@ -50,9 +50,21 @@ curl -s -o /dev/null -w "%{http_code}" -X POST http://localhost:3000/api/chat \
 2. Send a short greeting. A user bubble appears immediately, then a model bubble with three bouncing dots until the reply arrives.
 3. Send a follow-up that needs prior context (for example, “what did I just ask?”). The second request’s `history` must include the first turn so the reply stays coherent.
 
+## History cap
+
+A non-array `history` returns 400:
+
+```bash
+curl -s -o /dev/null -w "%{http_code}" -X POST http://localhost:3000/api/chat \
+  -H "Content-Type: application/json" \
+  -d "{\"message\":\"Hello\",\"history\":{}}"
+```
+
+More than 12 turns is accepted. The handler keeps the latest 12 and slices each turn to 2000 characters instead of rejecting a long honest chat.
+
 ## Tool routing
 
-Use the POC list in `api/_lib/projects.ts`:
+Use the catalog in `api/_lib/projects.json`:
 
 | Question | Expected tool |
 |---|---|
@@ -70,12 +82,16 @@ Replies should stay conversational and must not mention tool names.
 
 ## Rate limit
 
-The handler allows 10 requests per IP per minute (in-memory, per warm instance). Send 11 short messages quickly. The UI should show: `Too many requests — please wait a moment.`
+`chat.ts` still allows 10 requests per IP per minute on a warm instance. That counter resets on a cold start and does not use Runtime Cache. Send 11 short messages quickly against `vercel dev`. The UI should show: `Too many requests — please wait a moment.`
+
+The durable limit is the Vercel Firewall rule in `chatbot_setup.md`: `POST /api/chat`, fixed window, 10 requests / 60 seconds per IP, action 429. Hobby allows one rate-limit rule per project. Also turn on Bot Protection in Challenge mode, and switch it to Log if that challenge blocks the same-origin widget.
 
 ## Production
 
-After deploy:
+After deploy, and after the Firewall rule is published:
 
 1. Hard-refresh `/agent` (SPA rewrite in `vercel.json` should not 404).
-2. Repeat one project-info question and one GitHub-stats question from the table above.
+2. Repeat one project-info question and one GitHub-stats question from the table above. Ask the GitHub question twice; the second lookup should reuse the cached repo stats.
 3. Confirm the floating launcher works on `/` and `/blogs`, and is hidden on `/agent`.
+4. Send a follow-up that needs prior context. The thread stays in the browser, and the reply stays coherent.
+5. An 11th `POST /api/chat` within a minute returns 429 before Gemini. The widget shows the same too-many-requests message.
