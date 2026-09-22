@@ -73,6 +73,27 @@ function normalizeSuggestions(value: unknown): string[] {
     .map((item) => item.slice(0, MAX_SUGGESTION_CHARS));
 }
 
+function splitReplyAndSuggestions(text: string): { reply: string; suggestions: string[]; found: boolean } {
+  const fenced = text.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```\s*$/);
+  const bare = text.match(/(\{\s*"suggestions"\s*:\s*\[[\s\S]*?\]\s*\})\s*$/);
+  const match = fenced ?? bare;
+  if (!match || match.index === undefined) {
+    return { reply: text.trim(), suggestions: [], found: false };
+  }
+
+  try {
+    const suggestions = normalizeSuggestions(JSON.parse(match[1]));
+    const reply = text.slice(0, match.index).trim();
+    return {
+      reply: reply || "Sorry, I couldn't come up with an answer for that.",
+      suggestions,
+      found: true,
+    };
+  } catch {
+    return { reply: text.trim(), suggestions: [], found: false };
+  }
+}
+
 async function suggestFollowUps(ai: GoogleGenAI, reply: string): Promise<string[]> {
   try {
     const response = await ai.models.generateContent({
@@ -193,8 +214,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       finalText = "I wasn't able to finish looking that up — try asking again, or rephrase the question.";
     }
 
-    const suggestions = await suggestFollowUps(ai, finalText);
-    res.status(200).json({ reply: finalText, suggestions });
+    const split = splitReplyAndSuggestions(finalText);
+    const suggestions = split.found ? split.suggestions : await suggestFollowUps(ai, split.reply);
+    res.status(200).json({ reply: split.reply, suggestions });
   } catch (err) {
     console.error("chat handler error:", err);
     res.status(500).json({ error: "Something went wrong generating a response." });

@@ -6,7 +6,7 @@ export interface ChatSuggestion {
 export const STARTER_SUGGESTIONS: ChatSuggestion[] = [
     {
         label: 'Ask about a project origin story.',
-        prompt: 'What is Minesweep Plus, and why did you build it?',
+        prompt: 'What is the Minesweep Plus project, and why did you build it?',
     },
     {
         label: `What's the latest update?`,
