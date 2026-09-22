@@ -6,29 +6,22 @@ import { useScrollToTop } from '../../hooks/useScrollToTop';
 
 export function AgentPage() {
     useScrollToTop();
-    const { messages, isPending, error, send } = useChatContext();
+    const { messages, suggestions, isPending, error, send } = useChatContext();
 
     return (
-        <div className="flex min-h-screen flex-col bg-surface">
-            <main className="mx-auto flex w-full max-w-4xl grow flex-col px-4 py-10 sm:px-6 lg:px-8">
-                <div className="w-full">
+        <div className="flex h-dvh flex-col overflow-hidden bg-surface">
+            <main className="mx-auto flex min-h-0 w-full max-w-4xl flex-1 flex-col px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
+                <div className="w-full shrink-0">
                     <InternalLinkButton to="/" variant="outline" label="Return to Home">
                         ← Return to Home
                     </InternalLinkButton>
                 </div>
 
-                <section className="mt-8 flex min-h-0 grow flex-col">
-                    <h3 className="text-center">
-                        Smart Agent <span className="text-primary-550">System</span>
-                    </h3>
-                    <p className="mx-auto mb-8 max-w-2xl text-center">
-                        Ask about the projects on this site. I can explain what they are,
-                        why they were built, and pull live GitHub details when a repo is linked.
-                    </p>
-
-                    <div className="min-h-[28rem] grow">
+                <section className="mt-4 flex min-h-0 flex-1 flex-col">
+                    <div className="min-h-0 flex-1">
                         <ChatPanel
                             messages={messages}
+                            suggestions={suggestions}
                             isPending={isPending}
                             error={error}
                             onSend={send}

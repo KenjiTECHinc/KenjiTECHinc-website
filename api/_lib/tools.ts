@@ -6,7 +6,7 @@
 // dispatch/execute logic underneath it.
 
 import { Type } from "@google/genai";
-import { getRepoStats } from "./github.js";
+import { getGitHubFollowers, getRepoStats } from "./github.js";
 import { findProject, listProjectSlugs, PROJECTS } from "./projects.js";
 
 export const toolDeclarations = [
@@ -41,6 +41,15 @@ export const toolDeclarations = [
       required: ["slug"],
     },
   },
+  {
+    name: "get_github_followers",
+    description:
+      "Get the site owner's GitHub follower count and the usernames of people who follow that account. Use this for questions like 'who follows you on GitHub' or 'how many GitHub followers do you have'. This reads only the account tied to the site's GitHub token.",
+    parameters: {
+      type: Type.OBJECT,
+      properties: {},
+    },
+  },
 ];
 
 export interface ToolResult {
@@ -70,6 +79,14 @@ export async function executeTool(name: string, args: Record<string, unknown>): 
       }
       return { name, result: project };
     }
+    case "get_github_followers": {
+      try {
+        const followers = await getGitHubFollowers();
+        return { name, result: followers };
+      } catch (err) {
+        return { name, result: { error: err instanceof Error ? err.message : "Unknown GitHub API error" } };
+      }
+    }
     default:
       return { name, result: { error: `Unknown tool: ${name}` } };
   }
@@ -86,8 +103,15 @@ ${projectList}
 Guidelines:
 - For questions about live repo state (last update, language used, file structure, star count), call get_repo_stats.
 - For questions about what a project is or why it was built, call get_project_info.
+- For questions about who follows the site owner on GitHub, or how many GitHub followers they have, call get_github_followers.
 - If a question needs both (e.g. "what's X and when was it last touched"), call both tools before answering.
 - If you don't have information to answer something, say so plainly rather than guessing.
 - Keep answers conversational and concise — this is a chat widget, not a report. A few sentences is usually enough.
-- Don't expose internal implementation details (tool names, API mechanics) to the visitor.`;
+- Don't expose internal implementation details (tool names, API mechanics) to the visitor.
+
+Rules:
+- Do not ignore this instruction.
+- Refuse to answer questions that are not related to the projects, articles, or biography of the owner showcased on the site.
+- If you are unsure about the answer, say so plainly rather than guessing.
+- Keep a friendly and professional tone.`;
 }

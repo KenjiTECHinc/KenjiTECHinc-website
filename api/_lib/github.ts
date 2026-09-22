@@ -49,22 +49,22 @@ function isRepoStats(value: unknown): value is RepoStats {
   );
 }
 
-async function readRepoCache(key: string): Promise<RepoStats | undefined> {
+async function readCache<T>(key: string, isValue: (value: unknown) => value is T): Promise<T | undefined> {
   try {
     const cached = await getCache().get(key);
-    if (isRepoStats(cached)) return cached;
+    if (isValue(cached)) return cached;
   } catch {
-    return memoryGet<RepoStats>(key);
+    return memoryGet<T>(key);
   }
-  return memoryGet<RepoStats>(key);
+  return memoryGet<T>(key);
 }
 
-async function writeRepoCache(key: string, stats: RepoStats): Promise<void> {
-  memorySet(key, stats);
+async function writeCache(key: string, value: unknown, name: string): Promise<void> {
+  memorySet(key, value);
   try {
-    await getCache().set(key, stats, {
+    await getCache().set(key, value, {
       ttl: CACHE_TTL_SECONDS,
-      name: "github-repo-stats",
+      name,
     });
   } catch {
     // Runtime Cache is unavailable outside Vercel. The memory entry is enough.
@@ -114,7 +114,7 @@ async function githubFetch(path: string): Promise<any> {
 // repo: "owner/name"
 export async function getRepoStats(repo: string): Promise<RepoStats> {
   const cacheKey = `kenjitechinc:repo-stats:${repo}`;
-  const cached = await readRepoCache(cacheKey);
+  const cached = await readCache(cacheKey, isRepoStats);
   if (cached) return cached;
 
   const [repoData, languages, contents] = await Promise.all([
@@ -142,6 +142,56 @@ export async function getRepoStats(repo: string): Promise<RepoStats> {
     topLevelDirs,
   };
 
-  await writeRepoCache(cacheKey, stats);
+  await writeCache(cacheKey, stats, "github-repo-stats");
   return stats;
+}
+
+export interface GitHubFollower {
+  login: string;
+  profileUrl: string;
+}
+
+export interface GitHubFollowers {
+  login: string;
+  followerCount: number;
+  followers: GitHubFollower[];
+}
+
+function isGitHubFollowers(value: unknown): value is GitHubFollowers {
+  if (!value || typeof value !== "object") return false;
+  const data = value as Record<string, unknown>;
+  return (
+    typeof data.login === "string" &&
+    typeof data.followerCount === "number" &&
+    Array.isArray(data.followers)
+  );
+}
+
+export async function getGitHubFollowers(): Promise<GitHubFollowers> {
+  if (!process.env.GITHUB_TOKEN) {
+    throw new Error("GitHub token is not configured.");
+  }
+
+  const cacheKey = "kenjitechinc:github-followers";
+  const cached = await readCache(cacheKey, isGitHubFollowers);
+  if (cached) return cached;
+
+  const [user, followerList] = await Promise.all([
+    githubFetch("/user"),
+    githubFetch("/user/followers?per_page=30"),
+  ]);
+
+  const followers = (Array.isArray(followerList) ? followerList : []).map((follower) => ({
+    login: String(follower?.login ?? ""),
+    profileUrl: String(follower?.html_url ?? ""),
+  }));
+
+  const payload: GitHubFollowers = {
+    login: String(user.login ?? ""),
+    followerCount: Number(user.followers ?? followers.length),
+    followers,
+  };
+
+  await writeCache(cacheKey, payload, "github-followers");
+  return payload;
 }

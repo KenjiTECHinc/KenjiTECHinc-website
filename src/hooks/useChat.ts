@@ -7,6 +7,7 @@ import type { ChatTurn } from '../lib/chatClient';
 
 export interface UseChatResult {
     messages: ChatTurn[];
+    suggestions: string[];
     isPending: boolean;
     error: string | null;
     send: (text: string) => Promise<void>;
@@ -14,6 +15,7 @@ export interface UseChatResult {
 
 export function useChat(): UseChatResult {
     const [messages, setMessages] = useState<ChatTurn[]>([]);
+    const [suggestions, setSuggestions] = useState<string[]>([]);
     const [isPending, setIsPending] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -30,12 +32,14 @@ export function useChat(): UseChatResult {
         const userTurn: ChatTurn = { role: 'user', text };
 
         setMessages((current) => [...current, userTurn]);
+        setSuggestions([]);
         setIsPending(true);
         setError(null);
 
         try {
-            const reply = await sendChatMessage(text, history);
-            setMessages((current) => [...current, { role: 'model', text: reply }]);
+            const result = await sendChatMessage(text, history);
+            setMessages((current) => [...current, { role: 'model', text: result.reply }]);
+            setSuggestions(result.suggestions);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Unable to reach the chatbot right now.');
         } finally {
@@ -43,5 +47,5 @@ export function useChat(): UseChatResult {
         }
     }, [isPending, messages]);
 
-    return { messages, isPending, error, send };
+    return { messages, suggestions, isPending, error, send };
 }

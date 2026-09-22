@@ -7,7 +7,13 @@ export interface ChatTurn {
 
 interface ChatApiResponse {
     reply?: string;
+    suggestions?: string[];
     error?: string;
+}
+
+export interface ChatReply {
+    reply: string;
+    suggestions: string[];
 }
 
 export const CHAT_MESSAGE_MAX_LENGTH = 2000;
@@ -38,7 +44,7 @@ function messageForStatus(status: number, fallback?: string): string {
 export async function sendChatMessage(
     message: string,
     history: ChatTurn[],
-): Promise<string> {
+): Promise<ChatReply> {
     let response: Response;
 
     try {
@@ -69,5 +75,9 @@ export async function sendChatMessage(
         throw new ChatClientError('Something went wrong generating a response.', 500);
     }
 
-    return payload.reply;
+    const suggestions = Array.isArray(payload.suggestions)
+        ? payload.suggestions.filter((item): item is string => typeof item === 'string' && item.trim().length > 0)
+        : [];
+
+    return { reply: payload.reply, suggestions };
 }

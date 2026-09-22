@@ -1,17 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { FormEvent, KeyboardEvent } from 'react';
 import { ChatSendButton } from '../atoms/ChatSendButton';
 import { CHAT_MESSAGE_MAX_LENGTH } from '../../lib/chatClient';
 
+export interface ChatPrefill {
+    id: number;
+    text: string;
+}
+
 interface ChatComposerProps {
     disabled?: boolean;
+    prefill: ChatPrefill | null;
     onSend: (text: string) => void;
 }
 
-export function ChatComposer({ disabled = false, onSend }: ChatComposerProps) {
+export function ChatComposer({ disabled = false, prefill, onSend }: ChatComposerProps) {
     const [draft, setDraft] = useState('');
     const remaining = CHAT_MESSAGE_MAX_LENGTH - draft.length;
     const canSend = draft.trim().length > 0 && remaining >= 0 && !disabled;
+
+    useEffect(() => {
+        if (!prefill) return;
+        setDraft(prefill.text.slice(0, CHAT_MESSAGE_MAX_LENGTH));
+    }, [prefill]);
 
     const submit = (event?: FormEvent) => {
         event?.preventDefault();
@@ -38,7 +49,7 @@ export function ChatComposer({ disabled = false, onSend }: ChatComposerProps) {
                     rows={2}
                     placeholder="Ask about a project..."
                     aria-label="Chat message"
-                    className="grow resize-none rounded-lg border border-border-200 bg-white px-3 py-2 font-sans text-xs text-text-700 outline-none focus:border-primary-550 md:text-sm"
+                    className="min-w-0 w-full grow resize-none rounded-lg border border-border-200 bg-white px-3 py-2 font-sans text-xs text-text-700 outline-none focus:border-primary-550 md:text-sm"
                 />
                 <ChatSendButton disabled={!canSend} />
             </div>
