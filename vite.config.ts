@@ -6,8 +6,8 @@ import mdx from '@mdx-js/rollup'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    { enforce: 'pre', ...mdx() },
-    react(),
-    tailwindcss()
+    { enforce: 'pre', ...mdx({ include: /\.mdx$/ }) },
+    react({ include: /\.[jt]sx?$/ }),
+    tailwindcss(),
   ],
 })
