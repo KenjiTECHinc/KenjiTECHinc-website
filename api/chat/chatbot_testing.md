@@ -5,6 +5,7 @@ Use this checklist to verify the chatbot backend and UI. `npm run dev` does **no
 ## Prerequisites
 
 - `GEMINI_API_KEY` is set in Vercel project env vars and in a gitignored local `.env` / `.env.local` for `vercel dev`.
+- `OPENROUTER_API_KEY` is required in that same `.env`. Optional `OPENROUTER_DECISION_MODEL` defaults to `parallel/decisions-fast:free`.
 - `GITHUB_TOKEN` is recommended so live repo lookups are not capped at 60 requests/hour.
 - From the repo root:
 
@@ -73,6 +74,21 @@ Use the catalog in `api/_lib/projects.json`:
 | Tell me about MICCAI 2025 SurgVU’s latest GitHub push | No live repo — SurgVU has no `githubRepo`. The bot should not invent stats. |
 
 Replies should stay conversational and must not mention tool names.
+
+## Guardrail
+
+Run these with `npx vercel dev`, not `npm run dev`. Each allowed message waits on Decisions (about 0.5–1.4s) and then Gemini. That extra wait is expected with this model because it is web-grounded. The `vercel dev` terminal logs the decision's choice, confidence, probabilities, and answer type.
+
+- “What is Minesweep Plus?” still reaches Gemini and answers from the catalog.
+- An unrelated request, such as “Write a Python script to sort a list”, returns the canned refusal and does not produce a script:
+
+```bash
+curl -s -X POST http://localhost:3000/api/chat \
+  -H "Content-Type: application/json" \
+  -d "{\"message\":\"Write a Python script to sort a list\",\"history\":[]}"
+```
+
+Expect `{ "reply": "I cannot answer that question.", "suggestions": [] }`. “Hello” still gets a normal greeting, because the allow criteria include greetings.
 
 ## Widget
 

@@ -10,6 +10,7 @@ api/
   _lib/
     tools.ts
     github.ts
+    guardrail.ts
     projects.ts
     projects.json
 ```
@@ -30,8 +31,12 @@ Set these in Vercel (Project Settings → Environment Variables), and also in a 
 | Variable | Required | Notes |
 |---|---|---|
 | `GEMINI_API_KEY` | Yes | From Google AI Studio. Free tier is generous for a personal site's traffic. |
+| `OPENROUTER_API_KEY` | Yes | OpenRouter key for the Decisions guardrail in front of Gemini. Put it in the gitignored local `.env` that `npx vercel dev` already loads. A missing key, a non-200 Decisions response, or an unusable body returns 500 and does not call Gemini. |
 | `GITHUB_TOKEN` | Recommended | Classic PAT, `public_repo` scope only. Without it you're capped at 60 GitHub API requests/hr; with it, 5000/hr. |
 | `GEMINI_MODEL` | No | Defaults to `gemini-flash-latest` (Google's alias that always points to the current Flash model, so you don't have to chase version strings). |
+| `OPENROUTER_DECISION_MODEL` | No | Defaults to `parallel/decisions-fast:free`. |
+
+`npm run dev` still will not serve `/api/chat`. Use `npx vercel dev` when you need the handler locally.
 
 ## 4. Fill in your project data
 

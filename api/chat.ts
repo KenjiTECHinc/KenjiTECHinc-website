@@ -4,12 +4,14 @@
 // Body: { message: string, history?: { role: "user" | "model", text: string }[] }
 // Response: { reply: string, suggestions: string[] }
 //
-// Flow: send the conversation + tool declarations to Gemini. If it asks to
-// call a tool (get_repo_stats / get_project_info), run it and feed the
-// result back. Repeat until Gemini returns a plain text answer.
+// Flow: validate and rate-limit, then classify with the Decisions guardrail.
+// A rejection returns a canned reply and never calls Gemini. An allow keeps
+// the Gemini tool loop: if it asks to call a tool (get_repo_stats /
+// get_project_info), run it and feed the result back until it returns text.
 
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { GoogleGenAI } from "@google/genai";
+import { classifyChat } from "./_lib/guardrail.js";
 import { toolDeclarations, executeTool, buildSystemPrompt } from "./_lib/tools.js";
 
 const MODEL = process.env.GEMINI_MODEL || "gemini-flash-latest";
@@ -160,6 +162,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
+    const disposition = await classifyChat(message, history);
+    if (disposition !== "allow") {
+      res.status(200).json({
+        reply: "I cannot answer that question.",
+        suggestions: [],
+      });
+      return;
+    }
+
+    // A later router belongs on this allow branch only.
     const ai = getClient();
 
     const contents = [
